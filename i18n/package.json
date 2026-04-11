@@ -5,5 +5,8 @@
 	"scripts": {
 		"build": "cd .. && node --experimental-strip-types i18n/build.ts",
 		"deploy": "node --run build && wrangler deploy"
+	},
+	"dependencies": {
+		"@types/node": "catalog:"
 	}
 }
