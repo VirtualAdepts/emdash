@@ -717,6 +717,18 @@ const ST_SERVICES = [
 				position: relative;
 			}
 
+			/* Transparent bridge fills the gap between trigger and menu
+			   so hover stays active while the mouse traverses the gap */
+			.st-nav-dropdown::after {
+				content: '';
+				position: absolute;
+				top: 100%;
+				left: -20px;
+				right: -20px;
+				height: 22px;
+				background: transparent;
+			}
+
 			.st-nav-dropdown-trigger {
 				display: flex;
 				align-items: center;
