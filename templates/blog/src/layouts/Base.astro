@@ -70,6 +70,9 @@ const pageCtx = createPublicPageContext({
 // Check if user is logged in (for showing admin link)
 const isLoggedIn = !!Astro.locals.user;
 
+// Build identifier injected at Docker build time
+const buildSha = process.env.BUILD_SHA ?? 'dev';
+
 // SimpleTech: Services mega-menu items (icon = Phosphor class name)
 const ST_SERVICES = [
 	{
@@ -263,6 +266,7 @@ const ST_SERVICES = [
 					<p class="footer-copyright">
 						Powered by <a href="https://emdashcms.com">EmDash</a>
 					</p>
+					<span class="st-build-info">{buildSha}</span>
 					<div class="theme-switcher">
 						<button
 							type="button"
