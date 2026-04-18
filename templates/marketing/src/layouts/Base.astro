@@ -35,6 +35,46 @@ const pageCtx = createPublicPageContext({
 	seo: { ogImage: image },
 	siteName: siteTitle,
 });
+
+// SimpleTech: Services mega-menu items (icon = Phosphor class name)
+const ST_SERVICES = [
+	{
+		href: "/pages/ai-agentic",
+		icon: "ph-robot",
+		title: "AI & Agentic",
+		desc: "Practical AI and autonomous agent workflows that deliver measurable outcomes.",
+	},
+	{
+		href: "/pages/virtual-adepts",
+		icon: "ph-user-circle",
+		title: "IT Management",
+		desc: "Experienced CxO advisors and IT managers embedded with your team.",
+	},
+	{
+		href: "/pages/atlassian",
+		icon: "ph-kanban",
+		title: "Atlassian",
+		desc: "Deep Jira and Confluence expertise at any scale.",
+	},
+	{
+		href: "/pages/security-compliance",
+		icon: "ph-shield-check",
+		title: "Security & Compliance",
+		desc: "GDPR, NIS2, SOC2 and ISO 27001 risk assessment and advisory.",
+	},
+	{
+		href: "/pages/it-bid-tender",
+		icon: "ph-file-text",
+		title: "IT Bid & Tender",
+		desc: "Win public and private sector IT contracts in the Nordics.",
+	},
+	{
+		href: "/pages/3d-printing",
+		icon: "ph-cube",
+		title: "3D Printing",
+		desc: "Professional FDM multi-colour printing with fast Stockholm turnaround.",
+	},
+];
 ---
 
 <!doctype html>
@@ -75,11 +115,33 @@ const pageCtx = createPublicPageContext({
 				</a>
 				<div class="nav-links">
 					{
-						menu?.items.map((item) => (
-							<a href={item.url} target={item.target}>
-								{item.label}
-							</a>
-						))
+						menu?.items.map((item) =>
+							item.url === "/pages/services" ? (
+								<div class="st-nav-dropdown">
+									<a href={item.url} class="st-nav-dropdown-trigger">
+										{item.label}
+										<i class="ph ph-caret-down st-nav-caret" aria-hidden="true"></i>
+									</a>
+									<div class="st-mega-menu" role="menu">
+										<div class="st-mega-grid">
+											{ST_SERVICES.map((svc) => (
+												<a href={svc.href} class="st-mega-item" role="menuitem">
+													<i class={`ph ${svc.icon} st-mega-icon`} aria-hidden="true"></i>
+													<div class="st-mega-text">
+														<span class="st-mega-title">{svc.title}</span>
+														<span class="st-mega-desc">{svc.desc}</span>
+													</div>
+												</a>
+											))}
+										</div>
+									</div>
+								</div>
+							) : (
+								<a href={item.url} target={item.target}>
+									{item.label}
+								</a>
+							)
+						)
 					}
 				</div>
 				<div class="nav-actions">
@@ -489,18 +551,19 @@ const pageCtx = createPublicPageContext({
 			.nav-links {
 				display: flex;
 				flex-wrap: wrap;
+				align-items: center;
 				gap: var(--spacing-lg);
 				margin-left: auto;
 			}
 
-			.nav-links a {
+			.nav-links > a {
 				font-size: var(--font-size-sm);
 				font-weight: 500;
 				color: var(--color-muted);
 				transition: color var(--transition-fast);
 			}
 
-			.nav-links a:hover {
+			.nav-links > a:hover {
 				color: var(--color-text);
 			}
 
@@ -539,6 +602,137 @@ const pageCtx = createPublicPageContext({
 					var(--color-accent)
 				);
 				transform: translateY(-1px);
+			}
+
+			/* ---- Services mega-menu dropdown ---- */
+			.st-nav-dropdown {
+				position: relative;
+			}
+
+			.st-nav-dropdown-trigger {
+				display: flex;
+				align-items: center;
+				gap: 4px;
+				font-size: var(--font-size-sm);
+				font-weight: 500;
+				color: var(--color-muted);
+				transition: color var(--transition-fast);
+				white-space: nowrap;
+				cursor: default;
+			}
+
+			.st-nav-dropdown-trigger:hover {
+				color: var(--color-text);
+			}
+
+			.st-nav-caret {
+				font-size: 0.7rem;
+				transition: transform var(--transition-base);
+			}
+
+			.st-nav-dropdown:hover .st-nav-caret,
+			.st-nav-dropdown:focus-within .st-nav-caret {
+				transform: rotate(180deg);
+			}
+
+			.st-mega-menu {
+				position: absolute;
+				top: calc(100% + 18px);
+				left: 50%;
+				transform: translateX(-50%) translateY(-6px);
+				width: 620px;
+				background: #0a1e30;
+				border: 1px solid rgba(77, 166, 217, 0.22);
+				border-radius: 12px;
+				padding: 20px;
+				opacity: 0;
+				visibility: hidden;
+				pointer-events: none;
+				transition:
+					opacity 180ms ease,
+					visibility 180ms ease,
+					transform 180ms ease;
+				z-index: 200;
+				box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+			}
+
+			/* Arrow pointing up */
+			.st-mega-menu::before {
+				content: "";
+				position: absolute;
+				top: -7px;
+				left: 50%;
+				transform: translateX(-50%);
+				width: 12px;
+				height: 12px;
+				background: #0a1e30;
+				border-left: 1px solid rgba(77, 166, 217, 0.22);
+				border-top: 1px solid rgba(77, 166, 217, 0.22);
+				rotate: 45deg;
+			}
+
+			.st-nav-dropdown:hover .st-mega-menu,
+			.st-nav-dropdown:focus-within .st-mega-menu {
+				opacity: 1;
+				visibility: visible;
+				pointer-events: auto;
+				transform: translateX(-50%) translateY(0);
+			}
+
+			.st-mega-grid {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 4px;
+			}
+
+			.st-mega-item {
+				display: flex;
+				align-items: flex-start;
+				gap: 12px;
+				padding: 12px;
+				border-radius: 8px;
+				text-decoration: none;
+				color: inherit;
+				transition: background var(--transition-fast);
+			}
+
+			.st-mega-item:hover {
+				background: rgba(77, 166, 217, 0.08);
+			}
+
+			.st-mega-icon {
+				font-size: 1.4rem;
+				color: #4da6d9;
+				flex-shrink: 0;
+				margin-top: 2px;
+			}
+
+			.st-mega-text {
+				display: flex;
+				flex-direction: column;
+				gap: 3px;
+			}
+
+			.st-mega-title {
+				font-size: 0.875rem;
+				font-weight: 600;
+				color: #e8f4fb;
+			}
+
+			.st-mega-desc {
+				font-size: 0.72rem;
+				color: #c8dde9;
+				line-height: 1.5;
+			}
+
+			/* Hide mega menu on narrow screens; show plain link only */
+			@media (max-width: 900px) {
+				.st-mega-menu {
+					display: none;
+				}
+				.st-nav-caret {
+					display: none;
+				}
 			}
 
 			main {
