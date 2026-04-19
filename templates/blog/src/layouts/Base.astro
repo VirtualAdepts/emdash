@@ -128,6 +128,10 @@ const ST_SERVICES = [
 			href="https://unpkg.com/@phosphor-icons/web@2.1.2/src/regular/style.css"
 			rel="stylesheet"
 		/>
+		<!-- SimpleTech custom CSS — served as a plain (non-hashed) file so CDN
+		     caches never treat it as immutable. Update the ?v= query param whenever
+		     custom.css changes to bust browser/CDN caches. -->
+		<link rel="stylesheet" href="/simpletech-custom.css" />
 		<script is:inline>
 			// Apply theme immediately to prevent flash
 			(function () {
